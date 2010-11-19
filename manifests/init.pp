@@ -20,7 +20,7 @@ class apache {
     ensure => running,
     enable => true,
   }
-  file{['/etc/httpd/vhosts.d', '/var/www/vhosts']:
+  file{[ '/etc/httpd/vhosts.d', '/var/www/vhosts' ]:
     ensure => directory,
     require => Package['httpd'],
     owner => root, group => 0, mode => 0755;
@@ -35,6 +35,10 @@ class apache {
     notify => Service['httpd'],
     owner => root, group => 0, mode => 0644;
   }
-  apache::confd{ [ 'defaults.inc', 'vhosts.conf', 'welcome.conf' ]: }
-  apache::vhost::file{'0-default.conf': }
+  apache::confd{[
+    'defaults.inc',
+    'vhosts.conf',
+    'welcome.conf',
+  ]:}
+  apache::vhost::file{'0-default.conf':}
 }
