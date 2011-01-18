@@ -35,6 +35,16 @@ class apache {
     notify => Service['httpd'],
     owner => root, group => 0, mode => 0644;
   }
+  file{'/etc/httpd/conf/httpd.conf':
+    source => [
+      "puppet://$server/modules/site-apache/conf/$fqdn/httpd.conf",
+      "puppet://$server/modules/site-apache/conf/httpd.conf",
+      "puppet://$server/modules/apache/conf/httpd.conf",
+    ],
+    require => Package['httpd'],
+    notify => Service['httpd'],
+    owner => root, group => 0, mode => 0644;
+  }
   apache::confd{[
     'defaults.inc',
     'vhosts.conf',
