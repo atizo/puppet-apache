@@ -1,16 +1,30 @@
 define apache::vhost::file(
+  $content = false,
   $ensure = present
 ) {
   include apache
-  file{"/etc/httpd/vhosts.d/$name":
+  if $name !~ /\.conf$/ {
+    $suffix = '.conf'
+  } else {
+    $suffix = ''
+  }
+  file{"/etc/httpd/vhosts.d/$name$suffix":
     ensure => $ensure,
-    source => [
-      "puppet://$server/modules/site-apache/vhosts.d/$fqdn/$name",
-      "puppet://$server/modules/site-apache/vhosts.d/$name",
-      "puppet://$server/modules/apache/vhosts.d/$name",
-    ],
     require => Package['httpd'],
     notify => Service['httpd'],
     owner => root, group => 0, mode => 0644;
+  }
+  if $content {
+    File["/etc/httpd/vhosts.d/$name$suffix"]{
+      content => $content,
+    }
+  } else {
+    File["/etc/httpd/vhosts.d/$name$suffix"]{
+      source => [
+        "puppet://$server/modules/site-apache/vhosts.d/$fqdn/$name$suffix",
+        "puppet://$server/modules/site-apache/vhosts.d/$name$suffix",
+        "puppet://$server/modules/apache/vhosts.d/$name$suffix",
+      ],
+    }
   }
 }
