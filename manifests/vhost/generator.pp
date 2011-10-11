@@ -14,7 +14,7 @@ define apache::vhost::generator(
   }
   file{"/etc/httpd/vhosts.d/$name":
     ensure => $ensure,
-    content => template("apache/vhosts/generator.erb"),
+    content => template('apache/vhosts/generator.erb'),
     require => Package['httpd'],
     notify => Service['httpd'],
     owner => root, group => 0, mode => 0644;
