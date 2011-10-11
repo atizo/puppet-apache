@@ -1,10 +1,10 @@
 <% if has_variable?('http_tree') -%>
-<VirtualHost *:80>
+<VirtualHost *:<%= http_port -%>>
 <%= http_tree -%>
 </VirtualHost>
 <% end -%>
 <% if has_variable?('https_tree') -%>
-<VirtualHost *:443>
+<VirtualHost *:<%= https_port -%>>
 <%= https_tree -%>
 </VirtualHost>
 <% end -%>

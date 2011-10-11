@@ -1,7 +1,9 @@
 define apache::vhost::generator(
   $ensure = present,
   $http = false,
-  $https = false
+  $https = false,
+  $http_port = 80,
+  $https_port = 443
 ) {
   include apache
   if $http {
